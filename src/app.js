@@ -18,7 +18,7 @@ app.get('/hello', (req, res) => {
 
 require('./routes')(app);
 
-sequelize.sync()
+sequelize.sync({ force: false })
 .then(() => {
   app.listen(config.port);
   console.log(`Started on port ${config.port}`);
