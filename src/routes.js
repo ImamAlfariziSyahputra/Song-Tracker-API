@@ -8,7 +8,6 @@ module.exports = (app) => {
     AuthControllerPolicy.register,
     AuthController.register,
   );
-
   app.post(
     '/login',
     AuthController.login,
@@ -18,9 +17,17 @@ module.exports = (app) => {
     '/songs',
     SongsController.all,
   );
+  app.get(
+    '/songs/:songId',
+    SongsController.show,
+  );
   app.post(
     '/songs',
     SongsController.store,
+  );
+  app.put(
+    '/songs/:songId',
+    SongsController.update,
   );
 
 }
