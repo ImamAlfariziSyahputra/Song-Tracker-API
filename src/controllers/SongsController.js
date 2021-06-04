@@ -6,6 +6,7 @@ module.exports = {
     try {
       let songs = null;
       const search = req.query.search;
+      console.log('SEARCH ==>', search);
       if(req.query.search) {
         songs = await Song.findAll({
           where: {
@@ -20,12 +21,13 @@ module.exports = {
             ),
           },
         });
+        res.send(songs);
       } else {
         const songs = await Song.findAll({
           limit: 10,
         });
+        res.send(songs);
       }
-      res.send(songs);
     } catch (err) {
       res.status(500).send({
         error: 'an error occured trying to fetch the songs',
