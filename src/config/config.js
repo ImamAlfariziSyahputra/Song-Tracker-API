@@ -1,3 +1,5 @@
+const path = require('path');
+
 module.exports = {
   port: process.env.PORT || 8081,
   db: {
@@ -7,7 +9,7 @@ module.exports = {
     option: {
       dialect: process.env.DIALECT || 'sqlite',
       host: process.env.HOST || 'localhost',
-      storage: './songtracker.sqlite',
+      storage: path.resolve(__dirname, '../../songtracker.sqlite'),
     }
   },
   authentication: {
