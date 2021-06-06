@@ -1,26 +1,41 @@
-const { Bookmark } = require('../models');
+const { Bookmark, Song } = require('../models');
+const _ = require('lodash');
 
 module.exports = {
   async all(req, res) {
     try {
       const { userId, songId } = req.query;
-      const bookmark = await Bookmark.findOne({
-        where: {
-          UserId: userId,
-          SongId: songId,
-        }
-      })
-      res.send(bookmark);
+      console.log('===>', req.query);
+      let where = {
+        UserId: userId,
+      };
+      if(songId) {
+        where.SongId = songId
+      };
+      // Outer Join Song Model
+      const bookmarks = await Bookmark.findAll({
+        where: where,
+        include: [
+          {
+            model: Song
+          }
+        ]
+      });
+      // Ambil hanya id Bookmark sama data Song nya
+      const b = bookmarks.map(bookmark => bookmark.toJSON())
+        .map(bookmark => _.extend({
+          bookmarkId: bookmark.id,
+        }, bookmark.Song))
+      res.send(b);
     } catch (err) {
       res.status(500).send({
-        error: 'an error occured trying to fetch the bookmarks',
+        error: `an error occured trying to fetch the bookmarks, ${err.message}`,
       });
     };
   },
   async store(req, res) {
     try {
       const { songId, userId } = req.body;
-      console.log('wkwkwk', songId, userId);
       const bookmark = await Bookmark.findOne({
         where: {
           SongId: songId,
