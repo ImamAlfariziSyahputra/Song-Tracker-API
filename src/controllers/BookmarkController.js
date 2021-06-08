@@ -5,7 +5,6 @@ module.exports = {
   async all(req, res) {
     try {
       const { userId, songId } = req.query;
-      console.log('===>', req.query);
       let where = {
         UserId: userId,
       };
@@ -23,9 +22,11 @@ module.exports = {
       });
       // Ambil hanya id Bookmark sama data Song nya
       const b = bookmarks.map(bookmark => bookmark.toJSON())
-        .map(bookmark => _.extend({
-          bookmarkId: bookmark.id,
-        }, bookmark.Song))
+        .map(bookmark => _.extend(
+          {},
+          bookmark.Song,
+          bookmark
+        ))
       res.send(b);
     } catch (err) {
       res.status(500).send({

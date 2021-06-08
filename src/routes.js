@@ -2,6 +2,7 @@ const AuthControllerPolicy = require('./policies/AuthControllerPolicy');
 const AuthController = require('./controllers/AuthController');
 const SongsController = require('./controllers/SongsController');
 const BookmarkController = require('./controllers/BookmarkController');
+const HistoriesController = require('./controllers/HistoriesController');
 
 module.exports = (app) => {
   app.post(
@@ -42,5 +43,14 @@ module.exports = (app) => {
   app.delete(
     '/bookmarks/:bookmarkId',
     BookmarkController.delete,
+  );
+
+  app.get(
+    '/histories',
+    HistoriesController.all,
+  );
+  app.post(
+    '/histories',
+    HistoriesController.store,
   );
 }
