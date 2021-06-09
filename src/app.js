@@ -10,11 +10,7 @@ app.use(morgan('combined'));
 app.use(bodyParser.json());
 app.use(cors());
 
-app.get('/hello', (req, res) => {
-  res.send({
-    message: 'Hello',
-  });
-});
+require('./passport');
 
 require('./routes')(app);
 

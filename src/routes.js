@@ -4,6 +4,8 @@ const SongsController = require('./controllers/SongsController');
 const BookmarkController = require('./controllers/BookmarkController');
 const HistoriesController = require('./controllers/HistoriesController');
 
+const isAuthenticated = require('./policies/isAuthenticated');
+
 module.exports = (app) => {
   app.post(
     '/register',
@@ -34,23 +36,28 @@ module.exports = (app) => {
 
   app.get(
     '/bookmarks',
+    isAuthenticated,
     BookmarkController.all,
   );
   app.post(
     '/bookmarks',
+    isAuthenticated,
     BookmarkController.store,
   );
   app.delete(
     '/bookmarks/:bookmarkId',
+    isAuthenticated,
     BookmarkController.delete,
   );
 
   app.get(
     '/histories',
+    isAuthenticated,
     HistoriesController.all,
   );
   app.post(
     '/histories',
+    isAuthenticated,
     HistoriesController.store,
   );
 }

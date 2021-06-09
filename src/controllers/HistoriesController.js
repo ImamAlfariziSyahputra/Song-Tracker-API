@@ -1,10 +1,10 @@
-const { Bookmark, Song, History } = require('../models');
+const { Song, History } = require('../models');
 const _ = require('lodash');
 
 module.exports = {
   async all(req, res) {
     try {
-      const { userId } = req.query;
+      const userId = req.user.id;
       // Outer Join Song Model
       const histories = await History.findAll({
         where: {
@@ -33,7 +33,9 @@ module.exports = {
   },
   async store(req, res) {
     try {
-      const { songId, userId } = req.body;
+      const userId = req.user.id;
+      const { songId } = req.body;
+
       const history = await History.create({
         SongId: songId,
         UserId: userId,
@@ -41,7 +43,7 @@ module.exports = {
       res.send(history);
     } catch (err) {
       res.status(500).send({
-        error: 'an error occured trying to create the history',
+        error: `an error occured trying to create the history, ${err.message}`,
       });
     };
   },
